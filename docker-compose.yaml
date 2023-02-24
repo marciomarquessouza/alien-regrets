@@ -5,6 +5,8 @@ services:
     environment:
       - MONGODB_URI=mongodb://db:27017/posts
     build: .
+    volumes:
+      - ./:/app
     ports:
       - 3000:3000
   db:

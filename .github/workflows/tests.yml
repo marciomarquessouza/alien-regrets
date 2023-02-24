@@ -1,0 +1,22 @@
+name: CI Tests
+
+on: [push, pull_request]
+
+jobs:
+  tests-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout content
+        uses: actions/checkout@main
+      - name: log project content
+        run: ls -a
+      - name: node setup
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: log node version
+        run: node -v
+      - name: packages install
+        run: npm ci
+      - name: run tests
+        run: npm run test:ci
