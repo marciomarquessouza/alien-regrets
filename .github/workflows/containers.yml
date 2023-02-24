@@ -1,11 +1,14 @@
 name: container
 
-on: push
+on:
+  push:
+    branches:
+      - "test-container"
 
 jobs:
   node-docker:
     runs-on: ubuntu-latest
-    container: 
+    container:
       image: node:14.16.0-alpine3.13
     steps:
       - name: log node version
@@ -29,4 +32,4 @@ jobs:
       - name: add a post
         run: 'curl -X POST http://localhost:3000/api/posts -H ''Content-Type: application/json'' -d ''{"title": "David","content": "Bowie"}'''
       - name: get all posts
-        run: 'curl http://localhost:3000/api/posts'
+        run: "curl http://localhost:3000/api/posts"

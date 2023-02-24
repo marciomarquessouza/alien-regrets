@@ -1,9 +1,9 @@
 name: Create issue on commit
 
-on: 
+on:
   push:
     branches:
-      - main
+      - "test-issue"
 
 jobs:
   create_issue:

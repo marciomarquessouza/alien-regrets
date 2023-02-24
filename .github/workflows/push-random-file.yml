@@ -1,9 +1,9 @@
 name: Push random files
 
-on: 
+on:
   push:
     branches:
-      - main
+      - "random-file"
 
 jobs:
   push-random-file:

@@ -1,6 +1,9 @@
 name: Node Version using matrix
 
-on: push
+on:
+  push:
+    branches:
+      - "test-matrix"
 
 jobs:
   change_node_version:

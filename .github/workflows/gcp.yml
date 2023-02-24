@@ -1,0 +1,6 @@
+name: GCP Deploy
+
+on: 
+  push:
+    branches:
+      - ""

@@ -3,8 +3,7 @@ name: Actions Workflow
 on:
   push:
     branches:
-      - "main"
-      - "feature/**"
+      - "test-action"
 
 jobs:
   run-github-actions:

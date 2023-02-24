@@ -1,6 +1,9 @@
 name: Shell Commands
 
-on: push
+on:
+  push:
+    branches:
+      - "test-simple"
 
 jobs:
   run-shell-command:
