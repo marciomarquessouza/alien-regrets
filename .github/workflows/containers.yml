@@ -12,3 +12,21 @@ jobs:
         run: |
           node -v
           cat /etc/os-release
+  composer:
+    runs-on: ubuntu-latest
+    services:
+      app:
+        env:
+          MONGODB_URI: "mongodb://db:27017/posts"
+        image: marciosouza/alien-regrets:v1
+        ports:
+          - 3000:3000
+      db:
+        image: mongo
+        ports:
+          - "27017:27017"
+    steps:
+      - name: add a post
+        run: 'curl -X POST http://localhost:3000/api/posts -H ''Content-Type: application/json'' -d ''{"title": "David","content": "Bowie"}'''
+      - name: get all posts
+        run: 'curl http://localhost:3000/api/posts'
