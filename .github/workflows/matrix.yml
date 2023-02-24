@@ -1,0 +1,20 @@
+name: Node Version using matrix
+
+on: push
+
+jobs:
+  change_node_version:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix: 
+        node_version: [6,8,10]
+    steps:
+      - name: Log node version
+        run: node -v
+      - name: change version
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node_version }}
+      - name: log node version after the change
+        run: node -v
