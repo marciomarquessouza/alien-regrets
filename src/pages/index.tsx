@@ -13,9 +13,8 @@ export default function Home() {
       <main className={styles.main}>
         <div className={styles.description}>
           <h1>ALIEN REGRETS</h1>
-          <p>
-            Why...
-          </p>
+          <p>Why...</p>
+          <p>Santos</p>
         </div>
       </main>
     </>
