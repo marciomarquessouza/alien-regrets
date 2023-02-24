@@ -3,4 +3,50 @@ name: GCP Deploy
 on: 
   push:
     branches:
-      - ""
+      - "main"
+
+jobs:
+  deploy:
+    name: Setup GCloud
+    runs-on: ubuntu-latest
+    environment: HW-PROD
+    env:
+      IMAGE_NAME: gcr.io/${{ secrets.GCP_PROJECT_ID }}/site:latest
+      CLOUD_RUN_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      # project-name but it can be anything you want
+      REPO_NAME: alien-regrets
+    steps:
+      - name: content checkout
+        uses: actions/checkout@v2
+      
+      - name: log content
+        run: ls -a
+
+      - name: gcloud login
+        uses: google-github-actions/setup-gcloud@v0.2.0
+        with:
+          service_account_key: ${{ secrets.GCP_CREDENTIALS }}
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+      
+      - name: Configure Docker
+        run: gcloud auth configure-docker --quiet
+      
+      - name: Build Docker image
+        run: docker build -t $IMAGE_NAME .
+      
+      - name: Push Docker image
+        run: docker push $IMAGE_NAME
+      
+      - name: Deploy Docker image
+        run: |-
+          gcloud components install beta --quiet
+          gcloud beta run deploy $REPO_NAME --image $IMAGE_NAME \
+            --project $CLOUD_RUN_PROJECT_ID \
+            --region us-central1 \
+            --memory 128Mi \
+            --min-instances 0 \
+            --max-instances 1 \
+            --platform managed \
+            --allow-unauthenticated \
+            --quiet
+
