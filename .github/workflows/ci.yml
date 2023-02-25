@@ -3,6 +3,8 @@ name: CI
 on:
   pull_request:
     branches: ['develop']
+  push:
+    branches: ['develop']
 
 jobs:
   build:
@@ -20,3 +22,14 @@ jobs:
         run: yarn test:ci
         env:
           CI: true
+      - name: build project
+        if: github.event_name == 'push'
+        run: yarn export
+      - name: list project data
+        run: ls -a -l
+      - name: Publish project in surge
+        if: github.event_name == 'push'
+        run: npx surge --project ./out --domain alien-regrets.surge.sh
+        env:
+          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
