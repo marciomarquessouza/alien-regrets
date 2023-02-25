@@ -15,6 +15,7 @@ export default function Home() {
           <h1>ALIEN REGRETS</h1>
           <p>Why...</p>
           <p>Santos</p>
+          <p>Hey!</p>
         </div>
       </main>
     </>
