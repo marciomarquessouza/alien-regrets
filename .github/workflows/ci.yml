@@ -45,6 +45,11 @@ jobs:
           path: out
       - name: log environment variables
         run: echo '${{ toJSON(github) }}'
+      - name: ZIP Assets 
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        run: |
+          zip -r build.zip ./build
+          zip -r coverage.zip ./coverage
       - name: create release
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: npx semantic-release
