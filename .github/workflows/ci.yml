@@ -43,6 +43,8 @@ jobs:
         with:
           name: code-build
           path: out
+      - name: log environment variables
+        run: echo '${{ toJSON(github) }}'
       - name: create release
         if: github.event == 'push' && github.ref == 'refs/heads/main'
         run: npx semantic-release
