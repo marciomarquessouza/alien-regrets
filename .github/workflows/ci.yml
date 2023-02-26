@@ -18,6 +18,8 @@ jobs:
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
       - name: setup node
         uses: actions/setup-node@v3
         with:
@@ -28,11 +30,19 @@ jobs:
         run: yarn test:ci
         env:
           CI: true
+      - uses: actions/upload-artifact@v3
+        with:
+          name: code-coverage
+          path: coverage
       - name: build project
         if: github.event_name == 'push'
         run: yarn export
-      - name: list project data
-        run: ls -a -l
+      - name: upload artifacts
+        if: github.event_name == 'push'
+        uses: actions/upload-artifact@v3
+        with:
+          name: code-build
+          path: out
       - name: Publish project in surge
         if: github.event_name == 'push'
         run: npx surge --project ./out --domain alien-regrets.surge.sh
