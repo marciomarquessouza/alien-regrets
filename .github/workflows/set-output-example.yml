@@ -13,13 +13,18 @@ jobs:
     steps:
       - name: Do your work
         run: |
-          echo '::set-output name=FAV_NUMBER::3'
-          echo '::set-output name=FAV_COLOR::blue'
+          echo "FAV_NUMBER=3" >> $GITHUB_OUTPUT
+          echo "FAV_COLOR=blue" >> $GITHUB_OUTPUT
         id: abc
       - name: Read output
         run: |
-          echo '${{steps.abc.outputs.FAV_NUMBER}}'
-          echo '${{steps.abc.outputs.FAV_COLOR}}'
+          echo "${{ steps.abc.outputs.FAV_NUMBER }}"
+          echo "${{ steps.abc.outputs.FAV_COLOR }}"
+      - name: Set output
+        id: stepid
+        run: echo "name=count=5" >> $GITHUB_OUTPUT
+      - name: Use prior output
+        run: echo "The count was ${{ steps.stepid.outputs.count }}"
     outputs:
       fav-animal: tiger
       fav-number: ${{steps.abc.outputs.FAV_NUMBER}}
